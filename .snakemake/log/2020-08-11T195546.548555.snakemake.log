@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 24 of /Users/indumathiprakash/Documents/snakemake-tutorial/Snakefile:
+Missing input files for rule samtools_sort:
+mapped_reads/{SRR2034334.1.bam

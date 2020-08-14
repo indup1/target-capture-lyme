@@ -1,0 +1,93 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	bcftools_call
+	1	bwa_map
+	1	plot_quals
+	2	samtools_index
+	2	samtools_sort
+	8
+
+[Tue Jul 14 19:45:03 2020]
+rule bwa_map:
+    input: data/genome.fa, data/samples/B.fastq
+    output: mapped_reads/B.bam
+    jobid: 8
+    wildcards: sample=B
+
+[Tue Jul 14 19:45:04 2020]
+Finished job 8.
+1 of 8 steps (12%) done
+
+[Tue Jul 14 19:45:04 2020]
+rule samtools_sort:
+    input: mapped_reads/B.bam
+    output: sorted_reads/B.bam
+    jobid: 4
+    wildcards: sample=B
+
+[Tue Jul 14 19:45:04 2020]
+Finished job 4.
+2 of 8 steps (25%) done
+
+[Tue Jul 14 19:45:04 2020]
+rule samtools_sort:
+    input: mapped_reads/A.bam
+    output: sorted_reads/A.bam
+    jobid: 3
+    wildcards: sample=A
+
+[Tue Jul 14 19:45:04 2020]
+Finished job 3.
+3 of 8 steps (38%) done
+
+[Tue Jul 14 19:45:04 2020]
+rule samtools_index:
+    input: sorted_reads/B.bam
+    output: sorted_reads/B.bam.bai
+    jobid: 6
+    wildcards: sample=B
+
+[Tue Jul 14 19:45:04 2020]
+Finished job 6.
+4 of 8 steps (50%) done
+
+[Tue Jul 14 19:45:04 2020]
+rule samtools_index:
+    input: sorted_reads/A.bam
+    output: sorted_reads/A.bam.bai
+    jobid: 5
+    wildcards: sample=A
+
+[Tue Jul 14 19:45:04 2020]
+Finished job 5.
+5 of 8 steps (62%) done
+
+[Tue Jul 14 19:45:04 2020]
+rule bcftools_call:
+    input: data/genome.fa, sorted_reads/A.bam, sorted_reads/B.bam, sorted_reads/A.bam.bai, sorted_reads/B.bam.bai
+    output: calls/all.vcf
+    jobid: 2
+
+[Tue Jul 14 19:45:07 2020]
+Finished job 2.
+6 of 8 steps (75%) done
+
+[Tue Jul 14 19:45:07 2020]
+rule plot_quals:
+    input: calls/all.vcf
+    output: plots/quals.svg
+    jobid: 1
+
+[Tue Jul 14 19:45:07 2020]
+Error in rule plot_quals:
+    jobid: 1
+    output: plots/quals.svg
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/indumathiprakash/Documents/snakemake-tutorial/.snakemake/log/2020-07-14T194503.587061.snakemake.log

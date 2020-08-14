@@ -1,0 +1,19 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	samtools_sort
+	1
+
+[Tue Aug 11 19:53:40 2020]
+rule samtools_sort:
+    input: mapped_reads/SRR2034334.1.bam
+    output: sorted_reads/SRR2034334.1.bam
+    jobid: 0
+
+[Tue Aug 11 19:53:49 2020]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: /Users/indumathiprakash/Documents/snakemake-tutorial/.snakemake/log/2020-08-11T195340.237359.snakemake.log
