@@ -7,35 +7,38 @@ rule all:
 
 rule sra_fastq:
     input:
-        "data/placeholder"
+        "data/samples/selfgen/10081004.l10081004.000H3LCYN.1.fasta"
     shell:
-        "./sratoolkit/bin/fastq-dump data/samples/{input}"
+        "./seqtk/seqtk seq -F '!' {input} >
+data/samples/selfgen/10081004.l10081004.000H3LCYN.1.fastq"
+        # "./sratoolkit/bin/fastq-dump --fasta {input}"
+
 
 rule bwa_map:
     input:
         "data/refgen.fna",
-        "data/samples/SRR2034334.1.fastq"
+        "data/samples/selfgen/10081004.l10081004.000H3LCYN.1.fastq"
     output:
-        "mapped_reads/SRR2034334.1.bam"
+        "mapped_reads/10081004.l10081004.000H3LCYN.1.bam"
     shell:
         "bwa mem {input} | samtools view -Sb - > {output}"
 
 
 rule samtools_sort:
     input:
-        "mapped_reads/{sample}.bam"
+        "mapped_reads/10081004.l10081004.000H3LCYN.1.bam"
     output:
-        "sorted_reads/{sample}.bam"
+        "sorted_reads/10081004.l10081004.000H3LCYN.1.bam"
     shell:
-        "samtools sort -T sorted_reads/{wildcards.sample} "
+        "samtools sort -T {input} " 
         "-O bam {input} > {output}"
 
 
 rule samtools_index:
     input:
-        "sorted_reads/SRR2034334.1.bam"
+        "sorted_reads/10071001.l10071001.000H3LCYN.1.bam"
     output:
-        "sorted_reads/SRR2034334.1.bam.bai"
+        "sorted_reads/10071001.l10071001.000H3LCYN.1.bam.bai"
     shell:
         "samtools index {input}"
 
@@ -59,3 +62,5 @@ rule plot_quals:
         "plots/quals.svg"
     script:
         "scripts/plot-quals.py"
+
+#./samtools/samtools depth sorted_reads/....bam -a -o depths/....txt
